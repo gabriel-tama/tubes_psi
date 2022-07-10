@@ -1,16 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import logo from "../../components/assets/images/logo.svg";
 import { Link } from "react-router-dom";
-import Login from "../../components/login/Login";
 import Popup from "../../components/popup/Popup";
+import AuthContext from "../../context/AuthProvider";
 const Search = ({ CartItem }) => {
-	const [trig, setTrig] = useState(false);
+	const [search, setSearch] = useState("");
 	// fixed Header
 	window.addEventListener("scroll", function () {
 		const search = document.querySelector(".search");
 		search.classList.toggle("active", window.scrollY > 100);
 	});
+	const { auth } = useContext(AuthContext);
+	const { setTrig } = useContext(AuthContext);
+	// console.log("object");
+	function isEmpty(obj) {
+		for (var x in obj) {
+			return false;
+		}
+		return true;
+	}
+	const handleTrigger = () => {
+		if (isEmpty(auth)) {
+			setTrig(true);
+		}
+	};
+	// let search = "";
 
+	const handleSearch = (e) => {
+		e.preventDefault();
+		setSearch(e.target.value);
+		// search = e.target.value;
+		// console.log(srch);
+	};
 	return (
 		<>
 			<section className="search">
@@ -21,27 +42,34 @@ const Search = ({ CartItem }) => {
 					</div>
 
 					<div className="search-box f_flex">
-						<i className="fa fa-search"></i>
-						<input type="text" placeholder="Search and hit enter..." />
+						<Link to={`/result/?q=${search}`}>
+							<i className="fa fa-search"></i>
+						</Link>
+
+						<input
+							type="text"
+							placeholder="Search and hit enter..."
+							onChange={handleSearch}
+						/>
 						<span>All Category</span>
 					</div>
 
 					<div className="icon f_flex width">
 						<div className="auth">
-							<button onClick={() => setTrig(true)}>
+							<button onClick={handleTrigger}>
 								<i className="fa fa-user icon-circle"></i>
 							</button>
 						</div>
 
 						<div className="cart">
-							<Link to="/cart">
+							<Link to="/cart" onClick={handleTrigger}>
 								<i className="fa fa-shopping-bag icon-circle"></i>
 								<span>{CartItem.length === 0 ? "" : CartItem.length}</span>
 							</Link>
 						</div>
 					</div>
 				</div>
-				<Popup trigger={trig} setTrigger={setTrig}></Popup>
+				<Popup></Popup>
 			</section>
 		</>
 	);

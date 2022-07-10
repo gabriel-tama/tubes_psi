@@ -75,6 +75,10 @@ button {
 	margin-bottom: 20px;
 }
 
+.mr-10 {
+	margin-right: 10px;
+}
+
 /*---------category----------*/
 .contentWidth {
 	width: 77%;
@@ -131,7 +135,7 @@ button {
 	left: 0;
 	background: #e94560;
 	padding: 3px 10px;
-	font-size: 12px;
+	font-size: 14px;
 	border-radius: 50px;
 	color: #fff;
 	margin: 10px;
@@ -252,4 +256,48 @@ button {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	grid-gap: 10px;
+}
+
+.thead {
+	font-weight: 900 !important;
+	color: #e94560;
+}
+
+/* <!-- HTML !-->
+<button class="button-1" role="button">Button 1</button> */
+
+/* CSS */
+.showMore {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 30px;
+}
+.showMore-btn {
+	width: 300px;
+	background-color: #ea4c89;
+	border-radius: 8px;
+	border-style: none;
+	box-sizing: border-box;
+	color: #ffffff;
+	cursor: pointer;
+	display: inline-block;
+	font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial,
+		sans-serif;
+	font-size: 14px;
+	font-weight: 500;
+	height: 40px;
+	line-height: 20px;
+	list-style: none;
+	margin: 0;
+	outline: none;
+	padding: 10px 16px;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	transition: color 100ms;
+	vertical-align: baseline;
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
 }

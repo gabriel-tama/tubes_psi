@@ -17,4 +17,19 @@ class Barang extends Model
         'foto',
         'id_penjual'
     ];
+    public function users()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function details()
+    {
+
+        return $this->hasMany(Detail::class);
+    }
+
+    // public function getFotoAttribute($image)
+    // {
+    //     return asset('/storage/images/shops' . $image);
+    // }
 }

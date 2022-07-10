@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+// Route::get('/admin', function () {
+//     return view('admin.dashboard');
+// });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::group(['middleware' => ['auth', 'admin']], function () {
+    // Route::get('/dashboard', function () {
+    //     return view('admin.dashboard');
+    // });
+    Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'dashboard']);
+    Route::get('/data-transaksi', [App\Http\Controllers\Admin\DashboardController::class, 'all_details']);
+    Route::get('/data-barang', [App\Http\Controllers\Admin\DashboardController::class, 'all_barangs']);
+    Route::get('/role-register', [App\Http\Controllers\Admin\DashboardController::class, 'registered']);
 });

@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./popup.css";
 import Login from "../login/Login";
-const Popup = (props) => {
-	return props.trigger ? (
+import AuthContext from "../../context/AuthProvider";
+const Popup = () => {
+	const { trig, setTrig } = useContext(AuthContext);
+	return trig ? (
 		<div className="popup">
 			<div className="popup-inner">
 				{/* {props.children} */}
-				<Login trigger={props.trigger} setTrigger={props.setTrigger} />
-				<button className="close-btn" onClick={() => props.setTrigger(false)}>
+				<Login />
+				<button className="close-btn" onClick={() => setTrig(false)}>
 					<i className="fa fa-times fa-3x"></i>
 				</button>
 			</div>

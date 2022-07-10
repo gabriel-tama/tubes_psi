@@ -14,6 +14,15 @@ class BarangResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => (string)$this->id,
+            'nama' => (string)$this->nama,
+            'harga' => (string)$this->harga,
+            'stok' => (string)$this->stok,
+            'deskripsi' => (string)$this->deskripsi,
+            'id_penjual' => (string)$this->id_penjual,
+            // 'foto' => $this->foto,
+            'foto' => asset('/storage/images/shops/' . $this->foto),
+        ];
     }
 }

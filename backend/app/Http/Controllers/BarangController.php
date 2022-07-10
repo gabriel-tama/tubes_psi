@@ -45,20 +45,25 @@ class BarangController extends Controller
             'deskripsi' => 'required',
             'foto' => 'required',
         ]);
-        $user =  Barang::create([
+        $foto_name = time() . '-' . $fields['nama'] . '.' . $request->file('foto')->extension();
+        $data = Barang::create([
             'nama' => $fields['nama'],
             'harga' => $fields['harga'],
             'stok' => $fields['stok'],
             'deskripsi' => $fields['deskripsi'],
-            'foto' => $fields['foto'],
+            'foto' => $foto_name,
             'id_penjual' => $request->user()->id,
         ]);
+
+        $request->file('foto')->storeAs('public/images/shops/', $foto_name);
 
         $response = [
             'message' => 'Barang has been created.',
             'status_code' => '201',
+            'data' => $data,
+
         ];
-        return new BarangResource($response);
+        return $response;
     }
 
     /**

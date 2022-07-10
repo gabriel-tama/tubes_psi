@@ -1,40 +1,58 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import axios from "../../api/axios";
+import AuthContext from "../../context/AuthProvider";
 import "./style.css";
 
-const Cart = ({ CartItem, addToCart, decreaseQty }) => {
-	// Stpe: 7   calucate total of items
+const Cart = ({ CartItem, addToCart, decreaseQty, addTrans }) => {
+	// const [cartItem, setCartItem] = useState([]);
+	// const { auth } = useContext(AuthContext);
+	// const token = auth.token; // ganti token user from global context or local storage
+	// const fetchCart = async (e) => {
+	// 	try {
+	// 		const URL = "/keranjang";
+	// 		const response = await axios.get(URL, {
+	// 			headers: {
+	// 				Authorization: `Bearer ${token}`,
+	// 			},
+	// 		});
+	// 		console.log(response);
+	// 		setCartItem(response.data.data);
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
+	// useEffect(() => {
+	// 	fetchCart();
+	// }, [auth.token]);
+	console.log(CartItem);
 	const totalPrice = CartItem.reduce(
-		(price, item) => price + item.qty * item.price,
+		(price, item) => price + item.harga * item.jumlah,
 		0
 	);
 
-	// prodcut qty total
 	return (
 		<>
 			<section className="cart-items">
 				<div className="container d_flex">
-					{/* if hamro cart ma kunai pani item xaina bhane no diplay */}
-
 					<div className="cart-details">
 						{CartItem.length === 0 && (
 							<h1 className="no-items product">No Items are add in Cart</h1>
 						)}
 
-						{/* yasma hami le cart item lai display garaaxa */}
 						{CartItem.map((item) => {
-							const productQty = item.price * item.qty;
+							const productQty = item.harga * item.jumlah;
 
 							return (
 								<div className="cart-list product d_flex" key={item.id}>
 									<div className="img">
-										<img src={item.cover} alt="" />
+										<img src={item.foto} alt="" />
 									</div>
 									<div className="cart-details">
-										<h3>{item.name}</h3>
+										<h3>{item.nama}</h3>
 										<h4>
-											${item.price}.00 * {item.qty}
-											<span>${productQty}.00</span>
+											Rp.{item.harga} x {item.jumlah}
+											<span>Rp.{productQty}</span>
 										</h4>
 									</div>
 									<div className="cart-items-function">
@@ -43,9 +61,6 @@ const Cart = ({ CartItem, addToCart, decreaseQty }) => {
 												<i className="fa-solid fa-xmark"></i>
 											</button>
 										</div>
-										{/* stpe: 5 
-                    product ko qty lai inc ra des garne
-                    */}
 										<div className="cartControl d_flex">
 											<button
 												className="incCart"
@@ -59,6 +74,14 @@ const Cart = ({ CartItem, addToCart, decreaseQty }) => {
 											>
 												<i className="fa-solid fa-minus"></i>
 											</button>
+											<label class="switch">
+												<input
+													type="checkbox"
+													// value="1"
+													onClick={() => addTrans(item)}
+												/>
+												<span class="slider_box round__"></span>
+											</label>
 										</div>
 									</div>
 
@@ -72,10 +95,10 @@ const Cart = ({ CartItem, addToCart, decreaseQty }) => {
 						<h2>Cart Summary</h2>
 						<div className=" d_flex">
 							<h4>Total Price :</h4>
-							<h3>${totalPrice}.00</h3>
+							<h3>Rp.{totalPrice}</h3>
 						</div>
 						{totalPrice !== 0 ? (
-							<Link>
+							<Link to="/checkout">
 								<button className="btn-primary">Checkout</button>
 							</Link>
 						) : (
