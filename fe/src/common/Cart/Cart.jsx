@@ -51,8 +51,11 @@ const Cart = ({ CartItem, addToCart, decreaseQty, addTrans }) => {
 									<div className="cart-details">
 										<h3>{item.nama}</h3>
 										<h4>
-											Rp.{item.harga} x {item.jumlah}
-											<span>Rp.{productQty}</span>
+											Rp {parseInt(item.harga).toLocaleString("id-ID")} x (
+											{parseInt(item.jumlah)})
+											<span>
+												Rp {parseInt(productQty).toLocaleString("id-ID")}
+											</span>
 										</h4>
 									</div>
 									<div className="cart-items-function">
@@ -78,6 +81,7 @@ const Cart = ({ CartItem, addToCart, decreaseQty, addTrans }) => {
 												<input
 													type="checkbox"
 													// value="1"
+													checked={item.active}
 													onClick={() => addTrans(item)}
 												/>
 												<span class="slider_box round__"></span>

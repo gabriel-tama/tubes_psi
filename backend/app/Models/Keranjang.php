@@ -9,5 +9,5 @@ class Keranjang extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['jumlah'];
+    protected $fillable = ['jumlah', 'id_barang', 'id_pembeli'];
 }

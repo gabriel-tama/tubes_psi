@@ -15,6 +15,7 @@ import AuthContext from "./context/AuthProvider";
 import Query from "./pages/Query";
 import TList from "./TList/TList";
 import axios from "./api/axios";
+import Penjualan from "./components/Penjualan/Penjualan";
 
 function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -24,9 +25,20 @@ function App() {
 	const { auth } = useContext(AuthContext);
 
 	const fetchData = async () => {
+		const token = auth.token;
 		try {
-			const res = await axios.get("/barang");
-			setshopItems(res.data.data);
+			// const res = [];
+			if (auth.role === 2) {
+				const res = await axios.get("/barang/my", {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
+				setshopItems(res.data.data);
+			} else {
+				const res = await axios.get("/barang");
+				setshopItems(res.data.data);
+			}
 		} catch (error) {
 			console.log(error);
 		}
@@ -57,14 +69,22 @@ function App() {
 	}, [auth.token]);
 
 	const addTrans = (product) => {
-		const productExit = CartCheckout.find((item) => item.id === product.id);
-		if (productExit) {
-			setCartCheckout(CartCheckout.filter((item) => item.id !== product.id));
+		const productExit = CartItem.find((item) => item.id === product.id);
+		if (productExit.active === undefined || productExit.active === false) {
+			setCartItem(
+				CartItem.map((item) =>
+					item.id === product.id ? { ...productExit, active: true } : item
+				)
+			);
 		} else {
 			console.log(product);
-			setCartCheckout((CartCheckout) => [...CartCheckout, product]);
+			setCartItem(
+				CartItem.map((item) =>
+					item.id === product.id ? { ...productExit, active: false } : item
+				)
+			);
 		}
-		console.log(CartCheckout);
+		console.log(CartItem);
 	};
 
 	const addToCart = (product) => {
@@ -78,7 +98,7 @@ function App() {
 				)
 			);
 		} else {
-			setCartItem([...CartItem, { ...product, jumlah: 1 }]);
+			setCartItem([...CartItem, { ...product, jumlah: 1, active: false }]);
 			console.log(CartItem);
 		}
 	};
@@ -126,7 +146,7 @@ function App() {
 					</Route>
 					<Route path="/checkout">
 						<Transaction
-							CartItem={CartCheckout}
+							CartItem={CartItem}
 							addToCart={addToCart}
 							decreaseQty={decreaseQty}
 						/>
@@ -139,7 +159,11 @@ function App() {
 							productItems={productItems}
 							addToCart={addToCart}
 							shopItems={shopItems}
+							setshopItems={setshopItems}
 						/>
+					</Route>
+					<Route path="/grafik">
+						<Penjualan />
 					</Route>
 					<Route path="/" exact>
 						<Pages

@@ -44,7 +44,7 @@
 
 //export default ShopCart
 
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import AuthContext from "../../context/AuthProvider";
 
 const ShopCart = ({ shopItems, addToCart }) => {
@@ -64,6 +64,7 @@ const ShopCart = ({ shopItems, addToCart }) => {
 			setTrig(true);
 		}
 	};
+	// useEffect(() => {}, [shopItems]);
 
 	return (
 		<>
@@ -90,15 +91,10 @@ const ShopCart = ({ shopItems, addToCart }) => {
 									<h5>{shopItems.deskripsi.slice(0, 30)}</h5>
 								</div>
 								<div className="price">
-									<h4>Rp.{shopItems.harga}.00 </h4>
+									<h4>
+										Rp {parseInt(shopItems.harga).toLocaleString("id-ID")}{" "}
+									</h4>
 
-									<button
-										onClick={() =>
-											isEmpty(auth) ? setTrig(true) : addToCart(shopItems)
-										}
-									>
-										<i className="fa fa-plus"></i>
-									</button>
 									<button
 										onClick={() =>
 											isEmpty(auth) ? setTrig(true) : addToCart(shopItems)

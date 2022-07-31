@@ -62,6 +62,7 @@ class DashboardController extends Controller
         $recent_trans = DB::table('details')
             ->join('barangs', 'details.id_barang', '=', 'barangs.id')
             ->select('details.id', 'barangs.nama', 'details.jumlah', 'details.harga_satuan', 'details.created_at')
+            ->orderBy(DB::raw('details.created_at'), 'desc')
             ->take(5)
             ->get();
 
@@ -76,7 +77,6 @@ class DashboardController extends Controller
             ->pluck('count', 'month_name');
         $days_key = $detail_days->keys();
         $days_val = $detail_days->values();
-        // dd($details_month);
         $month_key = $details_month->keys();
         $month_val = $details_month->values();
         $pembeli = User::where('role', '3')->count();

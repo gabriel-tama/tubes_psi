@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import AuthContext from "../../context/AuthProvider";
 import Catg from "./Catg";
 import ShopCart from "./ShopCart";
 import "./style.css";
@@ -8,6 +9,7 @@ const Shop = ({ addToCart, shopItems }) => {
 	const loadMore = () => {
 		setNoElements(noElements + 3);
 	};
+	const { auth } = useContext(AuthContext);
 	const slicedShopItems = shopItems.slice(0, noElements);
 	return (
 		<>
@@ -18,7 +20,7 @@ const Shop = ({ addToCart, shopItems }) => {
 					<div className="contentWidth">
 						<div className="heading d_flex">
 							<div className="heading-left row  f_flex">
-								<h2>Baju Terbaru</h2>
+								<h2>{auth.role !== 2 ? "Baju Terbaru" : "Jualanku"}</h2>
 							</div>
 						</div>
 						<div className="product-content  grid1">

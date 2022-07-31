@@ -14,7 +14,7 @@ const Login = () => {
 	const [ok, setOk] = useState("false");
 	let history = useHistory();
 	const setContext = (id, nama, token, role, alamat) => {
-		setAuth({ id, nama, token, role, alamat });
+		setAuth({ id: id, nama: nama, token: token, role: role, alamat: alamat });
 	};
 
 	const LOGIN_URL = "/login";
@@ -68,9 +68,11 @@ const Login = () => {
 				);
 				console.log(response.data.data.user.name);
 				setContext(
+					response.data.data.user.id,
 					response.data.data.user.name,
 					response.data.data.token,
-					response.data.data.user.role
+					response.data.data.user.role,
+					response.data.data.user.alamat
 				);
 				localStorage.setItem("user", response.data.data.user.name);
 				localStorage.setItem("token", response.data.data.token);

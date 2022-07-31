@@ -26,7 +26,7 @@ class BarangFactory extends Factory
         return [
             //
             'nama' => $this->faker->name(),
-            'harga' => $this->faker->numberBetween(1000, 2000),
+            'harga' => $this->faker->numberBetween(100000, 200000),
             'stok' => $this->faker->numberBetween(2, 10),
             'deskripsi' => $this->faker->text(100),
             // 'foto' => $this->faker->text(20),

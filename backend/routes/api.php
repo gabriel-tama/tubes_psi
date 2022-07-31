@@ -47,7 +47,8 @@ Route::middleware('auth:sanctum')->get('/barang/my', [BarangController::class, '
 Route::middleware('auth:sanctum')->get('/keranjang', [KeranjangController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/transaksi', [TransaksiController::class, 'index']);
-
+Route::middleware('auth:sanctum')->post('/keranjang', [KeranjangController::class, 'store']);
+Route::middleware('auth:sanctum')->get('/grafik', [TransaksiController::class, 'penjualanku']);
 
 // Auth Related Route
 

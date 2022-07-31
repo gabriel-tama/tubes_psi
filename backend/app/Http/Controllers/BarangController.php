@@ -13,9 +13,12 @@ class BarangController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        // if ($request->user()->role=='2'){
+        //     return BarangResource::collection()
+        // }
         return BarangResource::collection(Barang::all());
     }
 
@@ -121,7 +124,7 @@ class BarangController extends Controller
     public function search(Request $request)
     {
         $name = $request->query('q');
-        return Barang::where('nama', 'like', '%' . $name . '%')->get();
+        return BarangResource::collection(Barang::where('nama', 'like', '%' . $name . '%')->get());
     }
     /**
      * Show specific user barang
@@ -132,6 +135,6 @@ class BarangController extends Controller
      */
     public function search_user(Request $request)
     {
-        return Barang::where('id_penjual', '=', $request->user()->id)->get();
+        return BarangResource::collection(Barang::where('id_penjual', '=', $request->user()->id)->get());
     }
 }

@@ -10,6 +10,7 @@ import Upload from "../Upload/Upload";
 
 const Pages = ({ productItems, addToCart, CartItem, shopItems }) => {
 	const { auth } = useContext(AuthContext);
+	// console.log(auth.role === "3");
 	useEffect(() => {}, [auth.role]);
 	const loading = () => {
 		return <h3>Loading...</h3>;

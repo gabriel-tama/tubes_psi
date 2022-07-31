@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,6 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import axios from "../api/axios";
+import AuthContext from "../context/AuthProvider";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
 	[`&.${tableCellClasses.head}`]: {
@@ -43,15 +44,37 @@ const rows = [
 
 export default function CustomizedTables() {
 	const [data, setData] = useState([]);
-	const token = "1|zhP6ebTyAws8h3knMVkzSE3w2aflFzfsaYXDGSZ1";
+	// const [data2, setData2] = useState([]);
+	// const sset = new Set();
+	// let payload = [];
+	// payload[0] = [...payload, { ...payload[0], abc: 1 }];
+	// console.log(payload);
+	const { auth } = useContext(AuthContext);
+	// const token = "1|zhP6ebTyAws8h3knMVkzSE3w2aflFzfsaYXDGSZ1";
 	const fetchData = async (e) => {
 		try {
 			const res = await axios.get("/transaksi", {
 				headers: {
-					Authorization: `Bearer ${token}`,
+					Authorization: `Bearer ${auth.token}`,
 				},
 			});
 			setData(res.data);
+			// console.log(res.data);
+			// let tmp = 0;
+			// res.data.forEach((el) => {
+			// 	if (sset.has(el.id_transaksi) === true) {
+
+			// 	} else {
+			// 		payload.push({ id: el.id_transaksi, data: [el] });
+			// 		sset.add(el.id_transaksi);
+			// 		payload.id_transaksi = el.id_transaksi;
+			// 	}
+			// });
+			// sset.forEach((el) => {
+
+			// });
+			// console.log(sset);
+			// console.log(payload);
 		} catch (error) {
 			console.log(error);
 		}
@@ -71,6 +94,9 @@ export default function CustomizedTables() {
 								<StyledTableCell>Tanggal</StyledTableCell>
 								<StyledTableCell align="right">Id Transaksi</StyledTableCell>
 								<StyledTableCell align="right">Id Detail</StyledTableCell>
+								<StyledTableCell align="right">
+									Nama {auth.role === 3 ? "Penjual" : "Pembeli"}
+								</StyledTableCell>
 								<StyledTableCell align="right">Jumlah</StyledTableCell>
 								<StyledTableCell align="right">Harga</StyledTableCell>
 								<StyledTableCell align="right">Total</StyledTableCell>
@@ -83,18 +109,22 @@ export default function CustomizedTables() {
 										{row.nama}
 									</StyledTableCell>
 									<StyledTableCell component="th" scope="row">
-										{row.created_at}
+										{row.created_at.toLocaleString("id-ID")}
 									</StyledTableCell>
 									<StyledTableCell align="right">
 										{row.id_transaksi}
 									</StyledTableCell>
 									<StyledTableCell align="right">{row.id}</StyledTableCell>
+									<StyledTableCell align="right">{row.name}</StyledTableCell>
 									<StyledTableCell align="right">{row.jumlah}</StyledTableCell>
 									<StyledTableCell align="right">
-										{row.harga_satuan}
+										Rp {parseInt(row.harga_satuan).toLocaleString("id-ID")}
 									</StyledTableCell>
 									<StyledTableCell align="right">
-										{row.harga_satuan * row.jumlah}
+										Rp{" "}
+										{parseInt(row.harga_satuan * row.jumlah).toLocaleString(
+											"id-ID"
+										)}
 									</StyledTableCell>
 								</StyledTableRow>
 							))}

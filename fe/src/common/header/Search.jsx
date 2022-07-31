@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import logo from "../../components/assets/images/logo.svg";
 import { Link } from "react-router-dom";
 import Popup from "../../components/popup/Popup";
@@ -30,8 +30,15 @@ const Search = ({ CartItem }) => {
 		e.preventDefault();
 		setSearch(e.target.value);
 		// search = e.target.value;
-		// console.log(srch);
+		// console.log(search);
 	};
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		console.log(search);
+	};
+	// useEffect(() => {}, [auth.role]);
+
 	return (
 		<>
 			<section className="search">
@@ -42,7 +49,7 @@ const Search = ({ CartItem }) => {
 					</div>
 
 					<div className="search-box f_flex">
-						<Link to={`/result/?q=${search}`}>
+						<Link to={`/result/?q=${search}`} onClick={handleSubmit}>
 							<i className="fa fa-search"></i>
 						</Link>
 
@@ -62,10 +69,14 @@ const Search = ({ CartItem }) => {
 						</div>
 
 						<div className="cart">
-							<Link to="/cart" onClick={handleTrigger}>
-								<i className="fa fa-shopping-bag icon-circle"></i>
-								<span>{CartItem.length === 0 ? "" : CartItem.length}</span>
-							</Link>
+							{auth.role !== 2 ? (
+								<Link to="/cart" onClick={handleTrigger}>
+									<i className="fa fa-shopping-bag icon-circle"></i>
+									<span>{CartItem.length === 0 ? "" : CartItem.length}</span>
+								</Link>
+							) : (
+								""
+							)}
 						</div>
 					</div>
 				</div>

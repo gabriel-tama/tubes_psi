@@ -15,7 +15,8 @@ class KeranjangResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "id" => (string) $this->id,
+            "id" => (string)$this->id,
+            "id_keranjang" => (string) $this->id_keranjang,
             "nama" => $this->nama,
             "harga" => (string)$this->harga,
             "stok" => (string)$this->stok,
